@@ -1,4 +1,4 @@
-package com.phisher98
+package com.doramas
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lagradost.api.Log
@@ -19,9 +19,9 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import org.json.JSONObject
 import java.util.ArrayList
 
-class KisskhProvider : MainAPI() {
-    override var mainUrl = "https://kisskh.ovh"
-    override var name = "Kisskh"
+class DoramaProvider : MainAPI() {
+    override var mainUrl = "https://doramasflix.io/"
+    override var name = "Dorama"
     override val hasMainPage = true
     override val hasDownloadSupport = true
     override val supportedTypes = setOf(
@@ -34,18 +34,9 @@ class KisskhProvider : MainAPI() {
     }
 
     override val mainPage = mainPageOf(
-        "&type=0&sub=0&country=0&status=0&order=2" to "Latest",
-        "&type=0&sub=0&country=2&status=0&order=1" to "Top K-Drama",
-        "&type=0&sub=0&country=1&status=0&order=1" to "Top C-Drama",
-        "&type=2&sub=0&country=2&status=0&order=1" to "Movie Popular",
-        "&type=2&sub=0&country=2&status=0&order=2" to "Movie Last Update",
-        "&type=1&sub=0&country=2&status=0&order=1" to "TVSeries Popular",
-        "&type=1&sub=0&country=2&status=0&order=2" to "TVSeries Last Update",
-        "&type=3&sub=0&country=0&status=0&order=1" to "Anime Popular",
-        "&type=3&sub=0&country=0&status=0&order=2" to "Anime Latest Update",
-        "&type=4&sub=0&country=0&status=0&order=1" to "Hollywood Popular",
-        "&type=4&sub=0&country=0&status=0&order=2" to "Hollywood Last Update",
-        "&type=0&sub=0&country=0&status=3&order=2" to "Upcoming"
+        "dorama" to "Doramas",
+        "peliculas" to "Peliculas",
+        "variedades" to "Variedades"
     )
 
     override suspend fun getMainPage(
@@ -266,10 +257,10 @@ class KisskhProvider : MainAPI() {
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-        val KisskhAPI = BuildConfig.KissKh
-        val KisskhSub = BuildConfig.KisskhSub
+        val DoramaAPI = BuildConfig.Dorama
+        val DoramaSub = BuildConfig.DoramaSub
         val loadData = parseJson<Data>(data)
-        val kkey = app.get("$KisskhAPI${loadData.epsId}&version=2.8.10", timeout = 10000).parsedSafe<Key>()?.key ?:""
+        val kkey = app.get("$DoramaAPI${loadData.epsId}&version=2.8.10", timeout = 10000).parsedSafe<Key>()?.key ?:""
         app.get(
             "$mainUrl/api/DramaList/Episode/${loadData.epsId}.png?err=false&ts=&time=&kkey=$kkey",
             referer = "$mainUrl/Drama/${getTitle("${loadData.title}")}/Episode-${loadData.eps}?id=${loadData.id}&ep=${loadData.epsId}&page=0&pageSize=100"
@@ -308,7 +299,7 @@ class KisskhProvider : MainAPI() {
             }
         }
 
-        val kkey1=app.get("$KisskhSub${loadData.epsId}&version=2.8.10", timeout = 10000).parsedSafe<Key>()?.key ?:""
+        val kkey1=app.get("$DoramaSub${loadData.epsId}&version=2.8.10", timeout = 10000).parsedSafe<Key>()?.key ?:""
         app.get("$mainUrl/api/Sub/${loadData.epsId}?kkey=$kkey1").text.let { res ->
             tryParseJson<List<Subtitle>>(res)?.map { sub ->
                 if (sub.src!!.contains(".txt")) {
