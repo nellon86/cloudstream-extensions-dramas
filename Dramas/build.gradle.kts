@@ -8,8 +8,8 @@ android {
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").inputStream())
         android.buildFeatures.buildConfig=true
-        buildConfigField("String", "KissKh", "\"${properties.getProperty("KissKh")}\"")
-        buildConfigField("String", "KisskhSub", "\"${properties.getProperty("KisskhSub")}\"")
+        buildConfigField("String", "Dorama", "\"${properties.getProperty("Dorama")}\"")
+        buildConfigField("String", "DoramaSub", "\"${properties.getProperty("DoramaSub")}\"")
 
     }
 }
@@ -20,7 +20,7 @@ cloudstream {
     // All of these properties are optional, you can safely remove them
 
     // description = "Lorem Ipsum"
-     authors = listOf("Phisher98,Hexated,Peerless")
+     authors = listOf("Me")
 
     /**
      * Status int as the following:
@@ -37,7 +37,7 @@ cloudstream {
         "Movie",
     )
 
-    iconUrl = "https://www.google.com/s2/favicons?domain=kisskh.co&sz=%size%"
+    iconUrl = "https://www.google.com/s2/favicons?domain=doramasflix.io&sz=%size%"
 
     isCrossPlatform = true
 }
