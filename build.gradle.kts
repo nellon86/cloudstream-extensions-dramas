@@ -41,7 +41,7 @@ subprojects {
     }
 
     android {
-        namespace = "com.phisher98"
+        namespace = "com.doramas"
 
         defaultConfig {
             minSdk = 21
